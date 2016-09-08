@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add
+    </ion-title>
+    <ion-buttons start>
+      <button (click)="dismiss()">
+        <span primary showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="add">
+  <div class="tabs">
+    <div class="tab" (click)="updateType({type: 0})" [ngClass]="{active: type==0}">
+      <a class="tab-item" ui-sref="tabs.about.page1">
+        Object
+      </a>
+    </div>
+    <div class="tab" (click)="updateType({type: 1})" [ngClass]="{active: type==1}">
+      <a class="tab-item" ui-sref="tabs.about.page2">
+        Person
+      </a>
+    </div>
+  </div>
+  <ion-list>
+    <div *ngIf="type == 0">
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <div *ngIf="type == 1">
+      <ion-item>
+        <ion-label floating>Firstname</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Lastname</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-item>
+      <ion-label floating>Location</ion-label>
+      <ion-input type="text"></ion-input>
+
+    </ion-item>
+
+    <ion-item>
+      <p>Images</p>
+
+      <a ion-item class="image-placeholder" (click)="insertImage({image: 1})"><ion-icon name="image"></ion-icon></a>
+      <a ion-item class="image-placeholder" (click)="insertImage({image: 2})"><ion-icon name="image"></ion-icon></a>
+      <br/>
+
+      <a ion-item class="image-placeholder" (click)="insertImage({image: 3})"><ion-icon name="image"></ion-icon></a>
+      <a ion-item class="image-placeholder" (click)="insertImage({image: 4})"><ion-icon name="image"></ion-icon></a>
+
+      <input type="file" #fileInput style="display: none" id="placeholder-1" (click)="onChange($event)">
+      <input type="file" #fileInput style="display: none" id="placeholder-2" (click)="onChange($event)">
+      <input type="file" #fileInput style="display: none" id="placeholder-3" (click)="onChange($event)">
+      <input type="file" #fileInput style="display: none" id="placeholder-4" (click)="onChange($event)">
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button block>Add</button>
+
+</ion-content>

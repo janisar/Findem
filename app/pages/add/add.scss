@@ -1,0 +1,64 @@
+.add {
+  .tabs {
+    height: 60px;
+    text-align: center;
+
+    .tab {
+      width: 49%;
+      display: inline-flex;
+      height: 94%;
+      margin-top: 1%;
+      text-align: center;
+      cursor: pointer;
+
+      a {
+        padding: 0 12px;
+        font-size: 2rem;
+        font-weight: 500;
+        color: #424242;
+        line-height: 62px;
+        margin-left: auto;
+        margin-right: auto;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+    .tab.active {
+
+      a {
+        color: #408640;
+        font-size: 2.2rem;
+      }
+    }
+    .tab:nth-child(1) {
+      border-right: solid 1px #dedede;
+    }
+  }
+  .image-placeholder {
+    width: 48%;
+    height: 130px;
+    display: inline-flex;
+    text-align: center;
+    background-color: #f7f7f7;
+    margin-top: 8px;
+    margin-left: 1%;
+    color: #777777;
+  }
+
+  ion-list {
+    padding: 5px;
+
+    ion-item {
+
+      p {
+        font-weight: 500;
+        padding-top: 1em;
+        font-size: 1em;
+      }
+
+      button.location {
+        display: block;
+      }
+    }
+  }
+}
