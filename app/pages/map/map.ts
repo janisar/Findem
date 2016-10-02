@@ -1,42 +1,25 @@
 /**
  * Created by saarlane on 6/09/16.
  */
-import {Component} from '@angular/core';
-import {google} from "angular2-google-maps/core/services/google-maps-types";
-import { AgmCoreModule } from 'angular2-google-maps/core';
-import { AppComponent } from './app.component';
+import {Component, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+//import { AppComponent } from './app.component';
+
+declare var google;
 
 @Component({
   templateUrl: 'build/pages/map/map.html'
 })
-@NgModule({
-  imports: [
-    AgmCoreModule.forRoot({
-      apiKey: 'YOUR_KEY'
-    })
-  ],
-  providers: [],
-  declarations: [ AppComponent ],
-  bootstrap: [ AppComponent ]
-})
-export class MapPage {
-  public static elements = [];
 
-  constructor() {
-    this.loadMap();
+export class MapPage implements AfterViewInit {
+
+  @ViewChild('findemMap') mapElement: ElementRef;
+
+  ngAfterViewInit(): any {
+    Map.getMap();
   }
+  constructor() {
 
-  private loadMap = function() {
-    google.maps.event.addDomListener(window, 'load', function() {
-
-      var map = Map.getMap();
-      var drawingManager = Map.getDrawingManager();
-
-      google.maps.event.addListener(drawingManager, 'overlaycomplete', GoogleMapUtil.drawingListener);
-
-      drawingManager.setMap(map);
-    });
-  };
+  }
 }
 
 export class Map {
@@ -86,10 +69,3 @@ export class Map {
   }
 }
 
-class GoogleMapUtil {
-
-  static drawingListener = function(element) {
-      MapPage.elements.push(element);
-      element.overlay.addListener('click', function(element) {alert("Hello, I am " +  JSON.stringify(element));});
-  }
-}
