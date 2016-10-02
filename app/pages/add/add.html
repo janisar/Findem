@@ -45,26 +45,32 @@
       </ion-item>
     </div>
 
-    <ion-item>
+    <ion-item class="add-location">
       <ion-label floating>Location</ion-label>
       <ion-input type="text"></ion-input>
 
     </ion-item>
 
+    <div class="add-location-map">
+      <br>or
+      <button ion-button color="light" outline><ion-icon name="map"></ion-icon></button>
+    </div>
+
+
     <ion-item>
       <p>Images</p>
 
-      <a ion-item class="image-placeholder" (click)="insertImage({image: 1})"><ion-icon name="image"></ion-icon></a>
-      <a ion-item class="image-placeholder" (click)="insertImage({image: 2})"><ion-icon name="image"></ion-icon></a>
+      <a class="image-placeholder" #fileInput (click)="insertImage({image: 1})"><ion-icon name="image"></ion-icon></a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 2})"><ion-icon name="image"></ion-icon></a>
       <br/>
 
-      <a ion-item class="image-placeholder" (click)="insertImage({image: 3})"><ion-icon name="image"></ion-icon></a>
-      <a ion-item class="image-placeholder" (click)="insertImage({image: 4})"><ion-icon name="image"></ion-icon></a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 3})"><ion-icon name="image"></ion-icon></a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 4})"><ion-icon name="image"></ion-icon></a>
 
-      <input type="file" #fileInput style="display: none" id="placeholder-1" (click)="onChange($event)">
-      <input type="file" #fileInput style="display: none" id="placeholder-2" (click)="onChange($event)">
-      <input type="file" #fileInput style="display: none" id="placeholder-3" (click)="onChange($event)">
-      <input type="file" #fileInput style="display: none" id="placeholder-4" (click)="onChange($event)">
+      <input type="file" #files style="display: none" (change)="uploadImage($event)">
+      <input #files type="file" style="display: none" (change)="uploadImage($event)">
+      <input #files type="file" style="display: none" (change)="uploadImage($event)">
+      <input #files type="file" style="display: none" (change)="uploadImage($event)">
     </ion-item>
 
     <ion-item>

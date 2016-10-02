@@ -17,8 +17,8 @@ export class MapPage implements AfterViewInit {
   ngAfterViewInit(): any {
     Map.getMap();
   }
-  constructor() {
 
+  constructor() {
   }
 }
 
@@ -31,7 +31,8 @@ export class Map {
     var mapOptions = {
       center: myLatlng,
       zoom: 12,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: true
     };
 
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
