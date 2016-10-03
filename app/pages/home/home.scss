@@ -1,3 +1,6 @@
+.findem-menu {
+  float: right;
+}
 .home {
   .add {
     font-size: 42px;
@@ -7,5 +10,41 @@
     height: 34px;
     border-radius: 100%;
     box-shadow: 6px 8px 8px #888888;
+  }
+  .half-top {
+    background: url("../../images/map.png");
+    background-size: cover;
+    width: 110%;
+    margin-left: -5%;
+    margin-top: -5%;
+    height: 55%;
+    padding: 0;
+    border-bottom: solid 2px #acacac;
+  }
+  .user-profile {
+    border-radius: 100%;
+    width: 110px;
+    height: 110px;
+    background-color: white;
+    border: solid 2px #e8e8e8;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -35px;
+    text-align: center;
+    color: #acacac;
+    font-size: 50px;
+
+    .profile-pic {
+      margin-top: 17px;
+      margin-left: 3px;
+    }
+  }
+  .track-search {
+    text-align: center;
+    width: 100%;
+    height: 25%;
+    .track-button {
+      margin-top: 3rem;
+    }
   }
 }

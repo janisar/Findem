@@ -1,21 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Findem<i class="icon-ellipsis-vertical"></i></ion-title>
+    <ion-title>Findem<i class="fa fa-ellipsis-v findem-menu" aria-hidden="true"></i></ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="home">
   <ion-icon name="add-circle" class="add" (click)="openAddModal()"></ion-icon>
-  <h2>{{greeting}}</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>app/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
-  <a ion-item (click)="openModal({charNum: 0})">
-    Gollum
-  </a>
+  <div class="half-top">
+  </div>
+  <div class="user-profile">
+    <ion-icon ios="ios-person" md="md-person" class="profile-pic"></ion-icon>
+  </div>
+  <div class="track-search">
+    <button class="track-button">
+      Track your search
+    </button>
+  </div>
+
 </ion-content>

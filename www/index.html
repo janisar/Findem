@@ -10,14 +10,25 @@
   <link ios-href="build/css/app.ios.css" rel="stylesheet">
   <link md-href="build/css/app.md.css" rel="stylesheet">
   <link wp-href="build/css/app.wp.css" rel="stylesheet">
+  <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
+  <style>
+    .loading {
+      text-align: center;
+      margin-top: 53%;
+    }
+  </style>
 </head>
 <body>
 
   <!-- This is Ionic's root component, where the app will load -->
-  <ion-app></ion-app>
+  <ion-app>
+    <div class="loading">
+      <img src="images/45.gif" alt="loading..."/>
+    </div>
+  </ion-app>
 
   <!-- cordova.js required for cordova apps -->
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB1ExDutIev0TNIiH5IrQo6H0wrE178j68&sensor=true&libraries=drawing"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB1ExDutIev0TNIiH5IrQo6H0wrE178j68&sensor=true&libraries=drawing,places"></script>
   <script src="cordova.js"></script>
   <!-- Polyfill needed for platforms without Promise and Collection support -->
   <script src="build/js/es6-shim.min.js"></script>

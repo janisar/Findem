@@ -4,7 +4,7 @@
     text-align: center;
 
     .tab {
-      width: 49%;
+      width: 39%;
       display: inline-flex;
       height: 94%;
       margin-top: 1%;
@@ -77,4 +77,18 @@
       line-height: 28px;
     }
   }
+}
+//Google autocomplete query
+.pac-container {
+  width: 88% !important;
+}
+.pac-selected {
+  font-size: 18px;
+}
+.pac-item {
+  line-height: 40px;
+  font-size: 12px;
+}
+.pac-item-query {
+  font-size: 14px;
 }
