@@ -15,17 +15,17 @@ declare var google;
 
 @Component({
   selector: 'save-button',
-  template: '<button #button *ngIf="disabled">Save changes</button>'
+  template: '<button #button *ngIf="enabled">Save changes</button>'
 })
 export class SaveButton {
   @ViewChild('button') button: ElementRef;
 
-  disabled:boolean = false;
+  enabled:boolean = false;
 
   constructor() {}
 
   setEnabled(disabled: boolean) {
-    this.disabled = disabled;
+    this.enabled = disabled;
   }
 }
 
@@ -87,15 +87,13 @@ export class DrawLocationOnMapModal implements AfterViewInit {
   }
 
   save() {
-    for (var i = 0; i < this.objects.length; i++) {
-      console.log(this.objects[i].getPath().getArray());
-    }
-
     this.viewCtrl.dismiss();
   }
 
   private overlayCallback(drawingmanager) {
+    var obj = this.objects;
     return function(element) {
+      obj.push(element);
       drawingmanager.setDrawingMode(null);
     }
   }
@@ -110,7 +108,6 @@ export class DrawLocationOnMapModal implements AfterViewInit {
         points.push(new Point(lat, lng));
       }
       let newPoly = new Polygon(points);
-      console.log(newPoly);
       addable.mapDrawings.push(newPoly);
     };
 
@@ -122,7 +119,6 @@ export class DrawLocationOnMapModal implements AfterViewInit {
       var radius = circle.radius;
 
       let newCircle = new Circle(radius,  new Point(center.lat(), center.lng()));
-      console.log(newCircle);
       addable.mapDrawings.push(newCircle);
     };
   }
@@ -130,13 +126,12 @@ export class DrawLocationOnMapModal implements AfterViewInit {
   private rectangleCallback(addable) {
 
     return function (rect) {
-      var left = rect.bounds.f.b;
-      var top = rect.bounds.b.b;
-      var right = rect.bounds.f.f;
-      var bottom = rect.bounds.b.f;
+      var left = rect.bounds.b.b;
+      var top = rect.bounds.f.b;
+      var right = rect.bounds.b.f;
+      var bottom = rect.bounds.f.f;
 
       var newRect = new Rect(left, top, right, bottom);
-      console.log(newRect);
       addable.mapDrawings.push(newRect);
     };
   }

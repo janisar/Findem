@@ -47,10 +47,13 @@
 
     <ion-item class="add-location">
       <ion-label floating>Location</ion-label>
-      <ion-input #autocomplete class="autocomplete" [(ngModel)]="object.location" (focus)="geolocate()"></ion-input>
+      <ion-input *ngIf="object.mapDrawings.length <= 0" #autocomplete class="autocomplete" [(ngModel)]="object.location" (focus)="geolocate()"></ion-input>
+      <ion-input *ngIf="object.mapDrawings.length > 0" class="autocomplete" value="Location set on map" disabled (focus)="geolocate()"></ion-input>
 
     </ion-item>
-
+    <div *ngIf="object.mapDrawings.length > 0" class="erase" (click)="removeMapDrawings()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
     <div class="add-location-map">
       <br>or
       <button ion-button color="light" outline (click)="drawOnMap()"><ion-icon name="map"></ion-icon></button>

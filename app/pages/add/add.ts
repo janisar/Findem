@@ -148,6 +148,10 @@ export class AddModalContentPage implements AfterViewInit {
 
     modal.present();
   }
+
+  removeMapDrawings() {
+    this.object.mapDrawings = [];
+  }
 }
 
 interface FileReaderEventTarget extends EventTarget {
