@@ -1,0 +1,31 @@
+<findem-map [currentObject]="object">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons start class="location-draw-btn">
+        <button (click)="drawCircle()">
+          circle&nbsp;<i class="fa fa-circle-thin" aria-hidden="true"></i>
+        </button>
+      </ion-buttons>
+      <ion-buttons start class="location-draw-btn">
+        <button (click)="drawRect()">
+          Rect&nbsp;<i class="fa fa-square-o" aria-hidden="true"></i>
+        </button>
+      </ion-buttons>
+      <ion-buttons start class="location-draw-btn">
+        <button (click)="draw()">
+          draw&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </button>
+      </ion-buttons>
+      <ion-buttons start class="location-draw-btn">
+        <button (click)="undo()">
+          <i class="fa fa-undo" aria-hidden="true"></i>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <div #locationOnMap id="map"></div>
+    <save-button #saveButton class="save-drawing" (click)="save()"></save-button>
+  </ion-content>
+</findem-map>

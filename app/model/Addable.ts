@@ -1,4 +1,4 @@
-import {List} from "ionic-angular";
+import {MapDrawing} from "./shape/MapDrawing";
 /**
  * Created by saarlane on 2/10/16.
  */
@@ -10,6 +10,7 @@ export class Addable {
   location: string;
   description: string;
   files: Array<File> = [];
+  mapDrawings: Array<MapDrawing> = [];
 
   constructor() {
 

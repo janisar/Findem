@@ -1,18 +1,25 @@
-import {Component, AfterViewInit, ViewChildren, QueryList, ElementRef, Renderer, ViewChild} from "@angular/core";
-import {ViewController} from "ionic-angular";
+import {
+  Component, AfterViewInit, ViewChildren, QueryList, ElementRef, Renderer, ViewChild
+} from "@angular/core";
+import {ViewController, ModalController} from "ionic-angular";
 import {Addable} from "../../model/Addable";
 import {Location} from "../../model/Location";
+import {DrawLocationOnMapModal} from "./addOnMap/locationOnMap";
+import {isUndefined} from "ionic-angular/util/util";
 
 declare var google;
 
 @Component({
   selector: 'findem-add',
-  templateUrl: './build/pages/add/add.html'
+  templateUrl: './build/pages/add/add.html',
+  directives: [DrawLocationOnMapModal]
 })
 
 export class AddModalContentPage implements AfterViewInit {
   ngAfterViewInit(): any {
-    this.initAutocomplete();
+    if (!isUndefined(google)) {
+      this.initAutocomplete();
+    }
   }
 
   @ViewChildren('fileInput') imageComponents: QueryList<ElementRef>;
@@ -21,12 +28,14 @@ export class AddModalContentPage implements AfterViewInit {
 
   private type = 0;
   private imageToAdd = 0;
+
   public object: Addable = new Addable();
 
   constructor(
     public element: ElementRef,
     public viewCtrl: ViewController,
-    private renderer:Renderer
+    private renderer:Renderer,
+    private modalCtrl: ModalController
   ) {
   }
 
@@ -132,6 +141,12 @@ export class AddModalContentPage implements AfterViewInit {
         ac.setBounds(circle.getBounds());
       });
     }
+  }
+
+  drawOnMap() {
+    let modal = this.modalCtrl.create(DrawLocationOnMapModal, {"object": this.object});
+
+    modal.present();
   }
 }
 

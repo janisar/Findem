@@ -15,7 +15,7 @@ export class MapPage implements AfterViewInit {
   @ViewChild('findemMap') mapElement: ElementRef;
 
   ngAfterViewInit(): any {
-    Map.getMap();
+    Map.getMap(this.mapElement.nativeElement);
   }
 
   constructor() {
@@ -24,18 +24,20 @@ export class MapPage implements AfterViewInit {
 
 export class Map {
 
-  static getMap() {
+  static getMap(element) {
 
     var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
 
     var mapOptions = {
       center: myLatlng,
       zoom: 12,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: true
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
+      disableDefaultUI: true,
+      zoomControl: true,
+      scaleControl: false
     };
 
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var map = new google.maps.Map(element, mapOptions);
 
     navigator.geolocation.getCurrentPosition(function(pos) {
       map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
@@ -51,22 +53,41 @@ export class Map {
 
   static getDrawingManager() {
     return new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.MARKER,
+      drawingMode: null,
       drawingControl: true,
       drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
-        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+        position: google.maps.ControlPosition.NONE,
+        drawingModes: []
       },
       markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
       circleOptions: {
-        fillColor: '#ffff00',
-        fillOpacity: 1,
-        strokeWeight: 5,
-        clickable: false,
+        fillColor: 'rgba(200, 54, 54, 0.2)',
+        fillOpacity: 0.6,
+        strokeWeight: 1,
+        clickable: true,
         editable: true,
+        draggable: true,
+        zIndex: 1
+      },
+      rectangleOptions: {
+        fillColor: 'rgba(200, 54, 54, 0.2)',
+        fillOpacity: 0.6,
+        strokeWeight: 1,
+        clickable: true,
+        editable: true,
+        draggable: true,
+        zIndex: 1
+      },
+      polygonOptions: {
+        fillColor: 'rgba(200, 54, 54, 0.2)',
+        fillOpacity: 0.6,
+        strokeWeight: 1,
+        clickable: true,
+        editable: true,
+        draggable: true,
         zIndex: 1
       }
-    });
+    })
   }
 }
 
