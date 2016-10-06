@@ -89,5 +89,37 @@ export class Map {
       }
     })
   }
+
+  static drawRect(map, bounds, id) {
+    return new google.maps.Rectangle({
+      fillColor: 'rgba(200, 54, 54, 0.2)',
+      fillOpacity: 0.6,
+      strokeWeight: 1,
+      clickable: true,
+      editable: true,
+      draggable: true,
+      zIndex: 1,
+      id: id,
+      map: map,
+      bounds: bounds
+    });
+  }
+
+  static drawCircle(map, center, radius, id) {
+    return  new google.maps.Circle({
+      fillColor: 'rgba(200, 54, 54, 0.2)',
+      fillOpacity: 0.6,
+      strokeWeight: 1,
+      clickable: true,
+      editable: true,
+      draggable: true,
+      zIndex: 1,
+      id: id,
+      map: map,
+      center: center,
+      radius: radius
+    });
+  }
+
 }
 

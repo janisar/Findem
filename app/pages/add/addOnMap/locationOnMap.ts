@@ -42,6 +42,7 @@ export class DrawLocationOnMapModal implements AfterViewInit {
   private objects = [];
   private drawingManager;
   private addable: Addable;
+  private static counter: number = 0;
 
   @ViewChild(SaveButton) saveButton: SaveButton;
 
@@ -54,11 +55,17 @@ export class DrawLocationOnMapModal implements AfterViewInit {
     google.maps.event.addListener(this.drawingManager, 'polygoncomplete', this.polygonCallback(this.addable));
     google.maps.event.addListener(this.drawingManager, 'circlecomplete', this.circleCallback(this.addable));
     google.maps.event.addListener(this.drawingManager, 'rectanglecomplete', this.rectangleCallback(this.addable));
+
+    if (this.addable.mapDrawings.length > 0) {
+      for (var i = 0; i < this.addable.mapDrawings.length; i++) {
+        this.addable.mapDrawings[i].drawShapeOnMap(map, this.addable, this.objects);
+      }
+      this.saveButton.setEnabled(true);
+    }
   }
 
   constructor(public viewCtrl: ViewController, private navParams: NavParams) {
     this.addable = navParams.get("object");
-    console.log(this.addable);
   }
 
   drawCircle() {
@@ -68,8 +75,13 @@ export class DrawLocationOnMapModal implements AfterViewInit {
 
   undo() {
     if (this.objects.length > 0) {
-      let overlay = this.objects.pop().overlay;
-      overlay.setMap(null);
+      let object = this.objects.pop();
+      this.addable.mapDrawings.pop();
+      if (object.overlay)
+        object.overlay.setMap(null);
+      else {
+        object.setMap(null);
+      }
       if (this.objects.length <= 0) {
         this.saveButton.setEnabled(false);
       }
@@ -93,8 +105,11 @@ export class DrawLocationOnMapModal implements AfterViewInit {
   private overlayCallback(drawingmanager) {
     var obj = this.objects;
     return function(element) {
+      element.id = DrawLocationOnMapModal.counter;
       obj.push(element);
       drawingmanager.setDrawingMode(null);
+      google.maps.event.addListener(element, "rightclick", function (point) { point.setMap(null) });
+      DrawLocationOnMapModal.counter = DrawLocationOnMapModal.counter + 1;
     }
   }
 
@@ -107,7 +122,7 @@ export class DrawLocationOnMapModal implements AfterViewInit {
         var lng = shape.getPath().getArray()[i].lng();
         points.push(new Point(lat, lng));
       }
-      let newPoly = new Polygon(points);
+      let newPoly = new Polygon(DrawLocationOnMapModal.counter, points);
       addable.mapDrawings.push(newPoly);
     };
 
@@ -115,24 +130,52 @@ export class DrawLocationOnMapModal implements AfterViewInit {
 
   private circleCallback(addable) {
     return function (circle) {
+      google.maps.event.addListener(circle, 'radius_changed', function(event) {
+        addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateRadius(circle.radius));
+      });
+      google.maps.event.addListener(circle, 'center_changed', function(event) {
+        addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateCenter(new Point(circle.center.lat(), circle.center.lng())));
+      });
+      DrawLocationOnMapModal.circleDragListener(circle, addable);
       var center = circle.center;
       var radius = circle.radius;
+      circle.id = DrawLocationOnMapModal.counter;
 
-      let newCircle = new Circle(radius,  new Point(center.lat(), center.lng()));
+      let newCircle = new Circle(DrawLocationOnMapModal.counter, radius,  new Point(center.lat(), center.lng()));
       addable.mapDrawings.push(newCircle);
     };
   }
 
   private rectangleCallback(addable) {
-
     return function (rect) {
+
+      DrawLocationOnMapModal.rectDragListener(rect, addable);
       var left = rect.bounds.b.b;
       var top = rect.bounds.f.b;
       var right = rect.bounds.b.f;
       var bottom = rect.bounds.f.f;
+      rect.id = DrawLocationOnMapModal.counter;
 
-      var newRect = new Rect(left, top, right, bottom);
+      var newRect = new Rect(DrawLocationOnMapModal.counter, left, top, right, bottom);
       addable.mapDrawings.push(newRect);
     };
+  }
+
+  static rectDragListener(rect, addable) {
+    google.maps.event.addListener(rect, 'bounds_changed', function(event) {
+      var bounds = rect.getBounds();
+      var ne = bounds.getNorthEast();
+      var sw = bounds.getSouthWest();
+      addable.mapDrawings.filter(t => t.id == rect.id).map(t => t.updateCoordinates(sw.lng(), ne.lat(), ne.lng(), sw.lat()));
+    });
+  }
+
+  static circleDragListener(circle, addable) {
+    google.maps.event.addListener(circle, 'radius_changed', function(event) {
+      addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateRadius(circle.radius));
+    });
+    google.maps.event.addListener(circle, 'center_changed', function(event) {
+      addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateCenter(new Point(circle.center.lat(), circle.center.lng())));
+    });
   }
 }

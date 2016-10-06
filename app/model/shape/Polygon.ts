@@ -6,8 +6,12 @@ import {MapDrawing} from "./MapDrawing";
 export class Polygon extends MapDrawing {
 
   private points: Array<Point>;
-  constructor(points: Array<Point>) {
-    super();
+
+  constructor(id: number, points: Array<Point>) {
+    super(id);
     this.points = points;
+  }
+
+  drawShapeOnMap(map, addable, objects) {
   }
 }
