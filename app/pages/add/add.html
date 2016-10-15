@@ -63,12 +63,24 @@
     <ion-item>
       <p>Images</p>
 
-      <a class="image-placeholder" #fileInput (click)="insertImage({image: 1})"><ion-icon name="image"></ion-icon></a>
-      <a #fileInput class="image-placeholder" (click)="insertImage({image: 2})"><ion-icon name="image"></ion-icon></a>
+      <a class="image-placeholder" #fileInput (click)="insertImage({image: 0})" [ngClass]="{error: imageErrors[0] === 'fail'}">
+        <ion-icon *ngIf="imageErrors[0] !== 'ok'" name="image"></ion-icon>
+        <ion-icon *ngIf="imageErrors[0] === 'ok'" name="close-circle" class="close" (click)="removeImage(0)"></ion-icon>
+      </a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 1})" [ngClass]="{error: imageErrors[1] === 'fail'}">
+        <ion-icon *ngIf="imageErrors[1] !== 'ok'" name="image"></ion-icon>
+        <ion-icon *ngIf="imageErrors[1] === 'ok'" name="close-circle" class="close" (click)="removeImage(1)"></ion-icon>
+      </a>
       <br/>
 
-      <a #fileInput class="image-placeholder" (click)="insertImage({image: 3})"><ion-icon name="image"></ion-icon></a>
-      <a #fileInput class="image-placeholder" (click)="insertImage({image: 4})"><ion-icon name="image"></ion-icon></a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 2})" [ngClass]="{error: imageErrors[2] === 'fail'}">
+        <ion-icon *ngIf="imageErrors[2] !== 'ok'" name="image"></ion-icon>
+        <ion-icon *ngIf="imageErrors[2] === 'ok'" name="close-circle" class="close" (click)="removeImage(2)"></ion-icon>
+      </a>
+      <a #fileInput class="image-placeholder" (click)="insertImage({image: 3})" [ngClass]="{error: imageErrors[3] === 'fail'}">
+        <ion-icon *ngIf="imageErrors[3] !== 'ok'" name="image"></ion-icon>
+        <ion-icon *ngIf="imageErrors[3] === 'ok'" name="close-circle" class="close" (click)="removeImage(3)"></ion-icon>
+      </a>
 
       <input type="file" #files style="display: none" (change)="uploadImage($event)">
       <input #files type="file" style="display: none" (change)="uploadImage($event)">

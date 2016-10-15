@@ -44,8 +44,27 @@
     margin-left: 1%;
     color: #777777;
 
-    .item-icon {
+    ion-icon {
       margin: auto;
+    }
+    ion-icon.close {
+      margin-left: auto;
+    }
+    .error {
+      display: none;
+    }
+  }
+  .image-placeholder.error {
+    position: relative;
+    border: solid 1px red;
+    color: red;
+    background-color: #efefef;
+    .error {
+      display: inline-block;
+      position: absolute;
+      width: 100%;
+      margin-top: 80px;
+      color: red;
     }
   }
 

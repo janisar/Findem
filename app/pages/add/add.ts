@@ -1,11 +1,12 @@
 import {
   Component, AfterViewInit, ViewChildren, QueryList, ElementRef, Renderer, ViewChild
 } from "@angular/core";
-import {ViewController, ModalController} from "ionic-angular";
+import {ViewController, ModalController, AlertController} from "ionic-angular";
 import {Addable} from "../../model/Addable";
 import {Location} from "../../model/Location";
 import {DrawLocationOnMapModal} from "./addOnMap/locationOnMap";
 import {isUndefined} from "ionic-angular/util/util";
+import {ImageService} from "../../service/ImageService";
 
 declare var google;
 
@@ -30,12 +31,15 @@ export class AddModalContentPage implements AfterViewInit {
   private imageToAdd = 0;
 
   public object: Addable = new Addable();
+  public imageErrors: Array<string> = new Array<string>(4);
 
   constructor(
     public element: ElementRef,
     public viewCtrl: ViewController,
     private renderer:Renderer,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private imageService: ImageService,
+    private alertCtrl: AlertController
   ) {
   }
 
@@ -44,24 +48,36 @@ export class AddModalContentPage implements AfterViewInit {
   }
 
   public insertImage(result) {
-    this.imageToAdd = result.image;
-    let event = new MouseEvent('click', {bubbles: true});
-    this.renderer.invokeElementMethod(
-      this.files.toArray()[this.imageToAdd-1].nativeElement, 'dispatchEvent', [event]);
+    if (this.imageService.getPreviousImage(result.image, this.object.files)) {
+      return;
+    } else {
+      this.imageToAdd = result.image;
+      let event = new MouseEvent('click', {bubbles: true});
+      this.renderer.invokeElementMethod(
+        this.files.toArray()[this.imageToAdd].nativeElement, 'dispatchEvent', [event]);
+    }
   }
 
   public uploadImage(event) {
     var file = event.target.files[0];
-    this.object.files.push(file);
+    var elementWrapper = this.imageComponents.toArray()[this.imageToAdd];
 
-    var reader = new FileReader();
-    var elementWrapper = this.imageComponents.toArray()[this.imageToAdd - 1];
+    if (file && this.imageService.isImage(file.name)) {
+      this.imageErrors[this.imageToAdd] = "ok";
 
-    reader.onload = function (e: FileReaderEvent) {
-      elementWrapper.nativeElement.style.background = "url('" + e.target.result + "')";
-      elementWrapper.nativeElement.style.backgroundSize = "cover";
-    };
-    reader.readAsDataURL(file);
+      this.imageService.saveFile(file, this.object, this.imageToAdd);
+
+      var reader = new FileReader();
+      reader.onload = function (e: FileReaderEvent) {
+        elementWrapper.nativeElement.style.background = "url('" + e.target.result + "')";
+        elementWrapper.nativeElement.style.backgroundSize = "cover";
+      };
+      reader.readAsDataURL(file);
+    } else {
+
+      this.imageErrors[this.imageToAdd] = "fail";
+      elementWrapper.nativeElement.innerHTML += "<div class='error'>Not an image</div>";
+    }
   }
   public updateType(result) {
     this.type = result.type;
@@ -151,6 +167,28 @@ export class AddModalContentPage implements AfterViewInit {
 
   removeMapDrawings() {
     this.object.mapDrawings = [];
+  }
+
+  removeImage(img) {
+    let confirm = this.alertCtrl.create({
+      title: 'Remove this image?',
+      message: 'Do you agree to remove this image from form?',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.imageErrors[img] = "";
+            this.imageService.removeImage(img, this.object.files);
+            var elementWrapper = this.imageComponents.toArray()[this.imageToAdd];
+            elementWrapper.nativeElement.style.background = "";
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }
 
