@@ -16,7 +16,7 @@ export class Rect extends MapDrawing {
               top: number,
               right: number,
               bottom: number) {
-    super(id);
+    super(id, "rect");
     this.left = left;
     this.top = top;
     this.right = right;

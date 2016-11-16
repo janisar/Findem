@@ -106,6 +106,8 @@ export class DrawLocationOnMapModal implements AfterViewInit {
     var obj = this.objects;
     return function(element) {
       element.id = DrawLocationOnMapModal.counter;
+      element.object = element.type;
+      console.log(element.type);
       obj.push(element);
       drawingmanager.setDrawingMode(null);
       google.maps.event.addListener(element, "rightclick", function (point) { point.setMap(null) });

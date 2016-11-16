@@ -81,7 +81,11 @@
 
       button.location {
         display: block;
+        height: 35px;
       }
+    }
+    .addForm-error {
+      margin-left: 15px;
     }
     .add-location {
       width: 78%;
@@ -118,4 +122,19 @@
 }
 .pac-item-query {
   font-size: 14px;
+}
+ion-input.ng-invalid > input::-webkit-input-placeholder {
+  color: red;
+}
+
+ion-input.ng-invalid > input:-moz-placeholder { /* Firefox 18- */
+  color: red;
+}
+
+ion-input.ng-invalid > input::-moz-placeholder {  /* Firefox 19+ */
+  color: red;
+}
+
+ion-input.ng-invalid > input:-ms-input-placeholder {
+  color: red;
 }

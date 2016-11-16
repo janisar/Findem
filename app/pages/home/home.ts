@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ModalController} from 'ionic-angular';
 import {AddModalContentPage} from "../add/add";
+import {FormPage} from "../mock/mock";
 
 @Component({
   templateUrl: 'build/pages/home/home.html'

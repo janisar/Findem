@@ -5,27 +5,35 @@ import {ViewController, ModalController, AlertController} from "ionic-angular";
 import {Addable} from "../../model/Addable";
 import {Location} from "../../model/Location";
 import {DrawLocationOnMapModal} from "./addOnMap/locationOnMap";
-import {isUndefined} from "ionic-angular/util/util";
 import {ImageService} from "../../service/ImageService";
+import {ControlGroup, AbstractControl, FormBuilder, Validators, FORM_DIRECTIVES} from "@angular/common";
+import {AddableService} from "../../service/AddableService";
 
 declare var google;
 
 @Component({
   selector: 'findem-add',
   templateUrl: './build/pages/add/add.html',
-  directives: [DrawLocationOnMapModal]
+  providers: [ImageService, AddableService],
+  directives: [DrawLocationOnMapModal, FORM_DIRECTIVES]
 })
 
 export class AddModalContentPage implements AfterViewInit {
   ngAfterViewInit(): any {
-    if (!isUndefined(google)) {
-      this.initAutocomplete();
-    }
+
   }
 
   @ViewChildren('fileInput') imageComponents: QueryList<ElementRef>;
   @ViewChildren('files') files: QueryList<ElementRef>;
   @ViewChild('autocomplete') autoComplete: any;
+
+  addForm: ControlGroup;
+  personForm: ControlGroup;
+
+  genericName: AbstractControl;
+  firstName: AbstractControl;
+  lastName: AbstractControl;
+  location: AbstractControl;
 
   private type = 0;
   private imageToAdd = 0;
@@ -39,8 +47,23 @@ export class AddModalContentPage implements AfterViewInit {
     private renderer:Renderer,
     private modalCtrl: ModalController,
     private imageService: ImageService,
-    private alertCtrl: AlertController
+    private addableService: AddableService,
+    private alertCtrl: AlertController,
+    private fb: FormBuilder
   ) {
+    this.addForm = fb.group({
+      'genericName': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
+      'location': ['', Validators.compose([])]
+    });
+    this.personForm = fb.group({
+      'firstName': ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      'lastName': ['', Validators.compose([Validators.required, Validators.minLength(2)])]
+    });
+
+    this.genericName = this.addForm.controls['genericName'];
+    this.firstName = this.personForm.controls['firstName'];
+    this.lastName = this.personForm.controls['lastName'];
+    this.location = this.addForm.controls['location'];
   }
 
   dismiss() {
@@ -84,7 +107,25 @@ export class AddModalContentPage implements AfterViewInit {
   }
 
   addObject() {
-    console.log(this.object);
+    var valid = true;
+
+    if (this.object.mapDrawings.length <= 0) {
+      this.location.markAsTouched();
+      valid = false;
+    } else {
+      this.location.markAsDirty(true)
+    }
+    if (!this.addForm.valid && this.type == 0) {
+      this.genericName.markAsTouched();
+      valid = false;
+    } else if (!this.personForm.valid && this.type == 1) {
+      this.firstName.markAsTouched();
+      this.lastName.markAsTouched();
+      valid = false;
+    }
+    if (valid) {
+      let result = this.addableService.saveAddable(this.object);
+    }
   }
 
   private autocomplete: any;
@@ -143,20 +184,20 @@ export class AddModalContentPage implements AfterViewInit {
   }
 
   geolocate() {
-    var ac = this.autocomplete;
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        ac.setBounds(circle.getBounds());
-      });
-    }
+    // var ac = this.autocomplete;
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(function(position) {
+    //     var geolocation = {
+    //       lat: position.coords.latitude,
+    //       lng: position.coords.longitude
+    //     };
+    //     var circle = new google.maps.Circle({
+    //       center: geolocation,
+    //       radius: position.coords.accuracy
+    //     });
+    //     ac.setBounds(circle.getBounds());
+    //   });
+    // }
   }
 
   drawOnMap() {

@@ -8,7 +8,7 @@ export class Polygon extends MapDrawing {
   private points: Array<Point>;
 
   constructor(id: number, points: Array<Point>) {
-    super(id);
+    super(id, "polygon");
     this.points = points;
   }
 

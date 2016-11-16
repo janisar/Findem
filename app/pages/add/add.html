@@ -26,39 +26,47 @@
     </div>
   </div>
   <ion-list>
-    <div *ngIf="type == 0">
-      <ion-item>
-        <ion-label floating>Name</ion-label>
-        <ion-input type="text" [(ngModel)]="object.genericName"></ion-input>
-      </ion-item>
-    </div>
+    <form *ngIf="type==0" [ngFormModel]="addForm">
+        <ion-item [class.error]="!genericName.valid && genericName.touched">
+          <ion-label floating>Name</ion-label>
+          <ion-input type="text"  name="genericName" [ngFormControl]="genericName" [(ngModel)]="object.genericName" ngDefaultControl></ion-input>
+        </ion-item>
+        <p *ngIf="!genericName.valid && genericName.touched" class="addForm-error" danger>Name is invalid</p>
+    </form>
 
-    <div *ngIf="type == 1">
+    <form *ngIf="type == 1" [ngFormModel]="personForm">
+
       <ion-item>
         <ion-label floating>Firstname</ion-label>
-        <ion-input type="text" [(ngModel)]="object.firstName"></ion-input>
+        <ion-input type="text" name="firstName" [ngFormControl]="firstName" [(ngModel)]="object.firstName" ngDefaultControl></ion-input>
       </ion-item>
+      <p *ngIf="!firstName.valid && firstName.touched" class="addForm-error" danger>Name is invalid</p>
 
       <ion-item>
         <ion-label floating>Lastname</ion-label>
-        <ion-input type="text" [(ngModel)]="object.lastName"></ion-input>
+        <ion-input type="text" name="lastName" [ngFormControl]="lastName" [(ngModel)]="object.lastName" ngDefaultControl></ion-input>
       </ion-item>
-    </div>
+      <p *ngIf="!lastName.valid && lastName.touched" class="addForm-error" danger>Name is invalid</p>
+    </form>
 
-    <ion-item class="add-location">
-      <ion-label floating>Location</ion-label>
-      <ion-input *ngIf="object.mapDrawings.length <= 0" #autocomplete class="autocomplete" [(ngModel)]="object.location" (focus)="geolocate()"></ion-input>
-      <ion-input *ngIf="object.mapDrawings.length > 0" class="autocomplete" value="Location set on map" disabled (focus)="geolocate()"></ion-input>
-
+    <ion-item>
+      <!--<ion-label floating>Location</ion-label>-->
+      <!--<ion-input *ngIf="object.mapDrawings.length <= 0" #autocomplete name="location" [ngFormControl]="location" class="autocomplete" [(ngModel)]="object.location" name="location_1" (focus)="geolocate()" ngDefaultControl></ion-input>-->
+      <!--<ion-input *ngIf="object.mapDrawings.length > 0" class="autocomplete" value="Location set on map" disabled name="location_1" (focus)="geolocate()"></ion-input>-->
+      <button ion-button block (click)="drawOnMap()" class="location">
+        Draw location
+      </button>
     </ion-item>
-    <div *ngIf="object.mapDrawings.length > 0" class="erase" (click)="removeMapDrawings()">
-      <i class="fa fa-times" aria-hidden="true"></i>
-    </div>
-    <div class="add-location-map">
-      <br>or
-      <button ion-button color="light" outline (click)="drawOnMap()"><ion-icon name="map"></ion-icon></button>
-    </div>
-
+    <!--<div *ngIf="object.mapDrawings.length > 0" class="erase" (click)="removeMapDrawings()">-->
+      <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+    <!--</div>-->
+    <!--<div class="add-location-map">-->
+      <!--<button ion-button color="light" outline (click)="drawOnMap()">-->
+        <!--&lt;!&ndash;<ion-icon name="map"></ion-icon>&ndash;&gt;-->
+        <!--Draw location-->
+      <!--</button>-->
+    <!--</div>-->
+      <p *ngIf="location.touched && !location.dirty" class="addForm-error" danger>Location must be set</p>
 
     <ion-item>
       <p>Images</p>
@@ -90,8 +98,9 @@
 
     <ion-item>
       <ion-label floating>Description</ion-label>
-      <ion-input type="text" [(ngModel)]="object.description"></ion-input>
+      <ion-input type="text" [(ngModel)]="object.description" name="description" ngDefaultControl></ion-input>
     </ion-item>
+
   </ion-list>
 
   <button block (click)="addObject()">Add</button>

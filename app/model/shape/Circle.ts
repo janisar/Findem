@@ -11,7 +11,7 @@ export class Circle extends MapDrawing {
   private center: Point;
 
   constructor(id: number, radius: number, center: Point) {
-    super(id);
+    super(id, "circle");
     this.radius = radius;
     this.center = center;
   }
