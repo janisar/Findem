@@ -4,7 +4,8 @@ import {MapPage} from "../map/map";
 import {ProfilePage} from "../profile/profile";
 
 @Component({
-  templateUrl: 'build/pages/tabs/tabs.html'
+  templateUrl: 'build/pages/tabs/tabs.html',
+  selector: 'findem-home'
 })
 export class TabsPage {
 

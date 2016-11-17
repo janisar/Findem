@@ -1,0 +1,31 @@
+.auth {
+  margin-top: auto;
+  margin-bottom: auto;
+
+  .separator {
+    text-align: center;
+    width: 100%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .social-buttons {
+
+    button {
+      width: 80%;
+      margin-left: 10%;
+      margin-top: 10px;
+    }
+  }
+  .login-block {
+    text-align: center;
+    margin-top: 3.5em;
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  ion-item {
+
+    button {
+      width: 48%;
+    }
+  }
+}

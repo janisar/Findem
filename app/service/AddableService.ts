@@ -11,7 +11,7 @@ export class AddableService {
   constructor(@Inject(Http) private http: Http){}
 
   saveAddable(addable: Addable) {
-    let data = JSON.stringify({genericName: addable.genericName, mapDrawings: addable.mapDrawings, description: addable.description, files: []});
+    let data = JSON.stringify({genericName: addable.genericName, mapDrawings: addable.mapDrawings, description: addable.description, files: addable.files});
     let headers = new Headers();
     headers.append("Content-Type", 'application/json');
 

@@ -88,14 +88,20 @@ export class AddModalContentPage implements AfterViewInit {
     if (file && this.imageService.isImage(file.name)) {
       this.imageErrors[this.imageToAdd] = "ok";
 
-      this.imageService.saveFile(file, this.object, this.imageToAdd);
-
       var reader = new FileReader();
+      var base64File = "";
+
       reader.onload = function (e: FileReaderEvent) {
-        elementWrapper.nativeElement.style.background = "url('" + e.target.result + "')";
+        base64File = e.target.result;
+        elementWrapper.nativeElement.style.background = "url('" + base64File + "')";
         elementWrapper.nativeElement.style.backgroundSize = "cover";
       };
+
       reader.readAsDataURL(file);
+
+      console.log(base64File.toString());
+
+      this.imageService.saveFile(base64File.toString() + "", this.object, this.imageToAdd);
     } else {
 
       this.imageErrors[this.imageToAdd] = "fail";

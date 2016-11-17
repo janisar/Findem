@@ -27,13 +27,13 @@ export class ImageService {
     }
   }
 
-  public saveFile(file: File, object: Addable, i: number) {
+  public saveFile(base64File: string, object: Addable, i: number) {
     let previous: FindemFile = this.getPreviousImage(i, object.files);
 
     if (previous) {
-      previous.setFile(file);
+      previous.setBase64(base64File);
     } else {
-      object.files.push(new FindemFile(i, file));
+      object.files.push(new FindemFile(i, base64File));
     }
   }
 

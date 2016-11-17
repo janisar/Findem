@@ -1,0 +1,26 @@
+<ion-list class="auth">
+
+  <ion-item>
+    <ion-label fixed>Username</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>Password</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <button ion-button round color="light">Log in</button>
+    <button ion-button round color="light">Register</button>
+  </ion-item>
+
+  <div class="separator">
+    <small>or</small>
+  </div>
+
+  <div class="social-buttons">
+    <button ion-button round block (click)="facebook()">Log in using Facebook</button>
+    <button ion-button round block color="secondary">Log in using Google</button>
+  </div>
+</ion-list>

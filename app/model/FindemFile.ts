@@ -4,11 +4,12 @@
 export class FindemFile {
 
   private id: number;
+  private base64: string;
   private file: File;
 
-  constructor(id: number, file: File) {
+  constructor(id: number, base64: string) {
     this.id = id;
-    this.file = file;
+    this.base64 = base64;
   }
 
   getId() {
@@ -21,5 +22,13 @@ export class FindemFile {
 
   setFile(file: File) {
     this.file = file;
+  }
+
+  setBase64(base64File: string) {
+    this.base64 = base64File;
+  }
+
+  getBase64() {
+    return this.base64;
   }
 }
