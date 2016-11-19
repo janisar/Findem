@@ -28,4 +28,10 @@
       width: 48%;
     }
   }
+  .invalid-cred {
+    text-align: center;
+    p {
+      color: red;
+    }
+  }
 }

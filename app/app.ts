@@ -7,7 +7,7 @@ import {Auth} from "./pages/auth/Auth";
 
 
 @Component({
-  template: '{{authenticated}} <auth-page *ngIf="!authenticated" [authenticated]="authenticated"></auth-page>' +
+  template: '<auth-page *ngIf="!authenticated" [authenticated]="authenticated" (authenticationChange)="authenticationChange($event);"></auth-page>' +
             '<findem-home *ngIf="authenticated" [root]="rootPage"></findem-home>',
   directives: [Auth, TabsPage],
   providers: [AuthService]
@@ -15,7 +15,16 @@ import {Auth} from "./pages/auth/Auth";
 export class FindemApp {
 
   private rootPage: any;
+
   private authenticated: boolean = false;
+
+  authenticationChange(event) {
+    if (event.registered) {
+      this.authenticated = event.registered;
+    } else if(event.authenticated) {
+      this.authenticated = event.authenticated;
+    }
+  }
 
   constructor(private platform: Platform,
               private authService: AuthService) {

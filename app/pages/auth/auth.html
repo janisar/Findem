@@ -1,19 +1,25 @@
 <ion-list class="auth">
 
-  <ion-item>
-    <ion-label fixed>Username</ion-label>
-    <ion-input type="text" value=""></ion-input>
-  </ion-item>
+  <form [ngFormModel]="loginForm">
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input name="userName" type="text" value="" [ngFormControl]="userName" [(ngModel)]="user.email" ngDefaultControl></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label fixed>Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input name="password" type="password" [(ngModel)]="user.password" [ngFormControl]="password" ngDefaultControl></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <button ion-button round color="light">Log in</button>
-    <button ion-button round color="light">Register</button>
-  </ion-item>
+    <ion-item class="invalid-cred" *ngIf="invalid">
+      <p class="error">Invalid username and/or password</p>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button round color="light" (click)="genericLogin()">Log in</button>
+      <button ion-button round color="light" (click)="register()">Register</button>
+    </ion-item>
+  </form>
 
   <div class="separator">
     <small>or</small>
