@@ -1,3 +1,5 @@
+<div>
+
 <ion-list class="auth">
 
   <form [ngFormModel]="loginForm">
@@ -12,12 +14,12 @@
     </ion-item>
 
     <ion-item class="invalid-cred" *ngIf="invalid">
-      <p class="error">Invalid username and/or password</p>
+      <p class="error">{{errorMessage}}</p>
     </ion-item>
 
     <ion-item>
-      <button ion-button round color="light" (click)="genericLogin()">Log in</button>
-      <button ion-button round color="light" (click)="register()">Register</button>
+      <button class="login-btn" ion-button color="default" (click)="genericLogin()">Log in</button>
+      <button ion-button color="light" (click)="register()">Register</button>
     </ion-item>
   </form>
 
@@ -26,7 +28,9 @@
   </div>
 
   <div class="social-buttons">
-    <button ion-button round block (click)="facebook()">Log in using Facebook</button>
-    <button ion-button round block color="secondary">Log in using Google</button>
+    <button ion-button block (click)="facebook()" class="fb"><i class="fb-icon"></i>Log in using Facebook</button>
+    <div id="google-signin"></div>
+    <!--<button id="my-signin2" ion-button round block color="secondary" (click)="googleLogin()">Log in using Google</button>-->
   </div>
 </ion-list>
+</div>

@@ -3,8 +3,8 @@
  */
 export class Point {
 
-  private lat: number;
-  private lng: number;
+  lat: number;
+  lng: number;
 
   constructor(lat: number, lng: number) {
     this.lat = lat;

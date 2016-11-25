@@ -7,9 +7,9 @@ export class FindemFile {
   private base64: string;
   private file: File;
 
-  constructor(id: number, base64: string) {
+  constructor(id: number, file: File) {
     this.id = id;
-    this.base64 = base64;
+    this.file = file;
   }
 
   getId() {

@@ -22,7 +22,7 @@ export class FindemApp {
     if (event.registered) {
       this.authenticated = event.registered;
     } else if(event.authenticated) {
-      this.authenticated = event.authenticated;
+      this.authenticated = true;
     }
   }
 

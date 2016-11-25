@@ -1,37 +1,67 @@
-.auth {
-  margin-top: auto;
-  margin-bottom: auto;
+auth-page {
+  display: table;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 
-  .separator {
-    text-align: center;
-    width: 100%;
-    margin-top: 2em;
-    margin-bottom: 2em;
-  }
-  .social-buttons {
+  div {
 
-    button {
-      width: 80%;
-      margin-left: 10%;
-      margin-top: 10px;
-    }
-  }
-  .login-block {
-    text-align: center;
-    margin-top: 3.5em;
-    margin-bottom: 10px;
-    font-size: 22px;
-  }
-  ion-item {
+    vertical-align: middle;
+    display: table-cell;
 
-    button {
-      width: 48%;
-    }
-  }
-  .invalid-cred {
-    text-align: center;
-    p {
-      color: red;
+    .auth {
+      margin-top: auto;
+      margin-bottom: auto;
+
+      .separator {
+        text-align: center;
+        width: 100%;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        display: table;
+      }
+      .social-buttons {
+
+        button {
+          width: 100%;
+          margin-left: 13%;
+          margin-top: 10px;
+        }
+        #google-signin {
+          width: 100%;
+          display: flex;
+          margin-left: 13%;
+          padding-top: 10px;
+        }
+        .fb {
+          .fb-icon {
+            width: 20px;
+            height: 20px;
+            background-image: url("../../images/facebook.png");
+          }
+        }
+      }
+      .login-block {
+        text-align: center;
+        margin-top: 3.5em;
+        margin-bottom: 10px;
+        font-size: 22px;
+      }
+      ion-item {
+
+        button {
+          width: 48%;
+        }
+        .login-btn {
+          background-color: #9e9e9e;
+        }
+      }
+      .invalid-cred {
+        text-align: center;
+        p {
+          color: red;
+        }
+      }
     }
   }
 }

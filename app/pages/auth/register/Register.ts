@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from "@angular/core";
+import {Component} from "@angular/core";
 import {ViewController, NavParams, LoadingController} from "ionic-angular";
 import {LoginService} from "../../../service/LoginService";
 import {ControlGroup, FormBuilder, FORM_DIRECTIVES, AbstractControl, Validators} from "@angular/common";
@@ -20,7 +20,7 @@ export class Register {
   private email: AbstractControl;
   private password1: AbstractControl;
   private password2: AbstractControl;
-  user: User = new User();
+  user: User = new User("", "");
   private registered: any;
 
   constructor(private viewCtrl: ViewController,
@@ -57,7 +57,6 @@ export class Register {
       loading.present();
 
       this.loginService.tryRegister(this.user).subscribe(result => {
-        console.log("should be ok");
           this.registered.emit({"registered": true});
           this.viewCtrl.dismiss();
           loading.dismiss();
@@ -67,7 +66,5 @@ export class Register {
         console.log("Something bad happened?");
       });
     }
-    console.log(this.registerForm);
-    //this.loginService.tryRegister()
   }
 }

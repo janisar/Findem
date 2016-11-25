@@ -1,15 +1,15 @@
-import {Injectable, ElementRef} from "@angular/core";
+import {Injectable, ElementRef, Inject} from "@angular/core";
 import {FindemFile} from "../model/FindemFile";
 import {Addable} from "../model/Addable";
+import {Http, Headers, RequestMethod, RequestOptions} from "@angular/http";
 /**
  * Created by saarlane on 7/10/16.
  */
 
 @Injectable()
 export class ImageService {
-  constructor() {
 
-  }
+  constructor(@Inject(Http) private http: Http) {  }
 
   public removeImage(id: number, files: Array<FindemFile>) {
     for (var i = 0; i < files.length; i++) {
@@ -27,14 +27,40 @@ export class ImageService {
     }
   }
 
-  public saveFile(base64File: string, object: Addable, i: number) {
+  public saveFile(file: File, object: Addable, i: number) {
     let previous: FindemFile = this.getPreviousImage(i, object.files);
 
     if (previous) {
-      previous.setBase64(base64File);
+      previous.setFile(file);
     } else {
-      object.files.push(new FindemFile(i, base64File));
+      object.files.push(new FindemFile(i, file));
     }
+  }
+
+  public sendFileToServer(file: File, id: number) {
+    this.uploadFile(file, id);
+  }
+
+  uploadFile(file:File, id: number):Promise<string> {
+    return new Promise((resolve, reject) => {
+
+      let xhr:XMLHttpRequest = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            resolve(<string>JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+
+      xhr.open('POST', "http://localhost:9000/saveFile/" + id, true);
+
+      let formData = new FormData();
+      formData.append("file", file, file.name);
+      xhr.send(formData);
+    });
   }
 
   public isImage(filename) {

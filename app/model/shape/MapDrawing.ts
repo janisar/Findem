@@ -4,8 +4,8 @@
 
 export abstract class MapDrawing {
 
-  private id: number;
-  private type: string;
+  id: number;
+  type: string;
 
   abstract drawShapeOnMap(map, addable, objects);
 

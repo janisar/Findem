@@ -7,8 +7,8 @@ import {DrawLocationOnMapModal} from "../../pages/add/addOnMap/locationOnMap";
  */
 export class Circle extends MapDrawing {
 
-  private radius: number;
-  private center: Point;
+  radius: number;
+  center: Point;
 
   constructor(id: number, radius: number, center: Point) {
     super(id, "circle");
@@ -17,7 +17,7 @@ export class Circle extends MapDrawing {
   }
 
   drawShapeOnMap(map, addable, objects) {
-    let circle = Map.drawCircle(map, {lat: this.center.getLat(), lng: this.center.getLng()}, this.radius, super.getId());
+    let circle = Map.drawCircle(map, {lat: this.center.getLat(), lng: this.center.getLng()}, this.radius, super.getId(), true);
     objects.push(circle);
     DrawLocationOnMapModal.circleDragListener(circle, addable);
   }

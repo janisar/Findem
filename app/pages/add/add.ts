@@ -89,19 +89,19 @@ export class AddModalContentPage implements AfterViewInit {
       this.imageErrors[this.imageToAdd] = "ok";
 
       var reader = new FileReader();
-      var base64File = "";
+      var _imageService = this.imageService;
+      var _imageToAdd = this.imageToAdd;
+      var _object = this.object;
 
       reader.onload = function (e: FileReaderEvent) {
-        base64File = e.target.result;
+        var base64File = e.target.result;
         elementWrapper.nativeElement.style.background = "url('" + base64File + "')";
         elementWrapper.nativeElement.style.backgroundSize = "cover";
+
+        _imageService.saveFile(file, _object, _imageToAdd);
       };
 
       reader.readAsDataURL(file);
-
-      console.log(base64File.toString());
-
-      this.imageService.saveFile(base64File.toString() + "", this.object, this.imageToAdd);
     } else {
 
       this.imageErrors[this.imageToAdd] = "fail";
@@ -130,7 +130,18 @@ export class AddModalContentPage implements AfterViewInit {
       valid = false;
     }
     if (valid) {
-      let result = this.addableService.saveAddable(this.object);
+      let _object = this.object;
+      let _imageService = this.imageService;
+
+      this.addableService.saveAddable(this.object).subscribe(
+        id => {
+          _object.files.forEach(file => {
+            console.log(file);
+          _imageService.sendFileToServer(file.getFile(), id);
+          });
+        },
+        err => console.log(err)
+      );
     }
   }
 

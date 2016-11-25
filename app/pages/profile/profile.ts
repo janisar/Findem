@@ -10,7 +10,7 @@ import {User} from "../../model/User";
 })
 export class ProfilePage {
 
-  public user: User = new User();
+  public user: User = new User("Hello", "World");
 
   constructor(private navCtrl: NavController) {
   }

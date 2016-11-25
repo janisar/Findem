@@ -12,7 +12,6 @@ import {NavParams, ViewController} from "ionic-angular";
 
 declare var google;
 
-
 @Component({
   selector: 'save-button',
   template: '<button #button *ngIf="enabled">Save changes</button>'
