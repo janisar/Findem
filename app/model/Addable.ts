@@ -13,8 +13,13 @@ export class Addable {
   description: string;
   files: Array<FindemFile> = [];
   mapDrawings: Array<MapDrawing> = [];
+  filePaths: Array<string>;
 
   constructor() {
+
+  }
+
+  getGenericName() {
 
   }
 }
