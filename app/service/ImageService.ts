@@ -37,18 +37,18 @@ export class ImageService {
     }
   }
 
-  public sendFileToServer(file: File, id: number) {
-    this.uploadFile(file, id);
+  public sendFileToServer(file: File, id: number): Promise<string> {
+    return this.uploadFile(file, id);
   }
 
-  uploadFile(file:File, id: number):Promise<string> {
+  uploadFile(file:File, id: number): Promise<string> {
     return new Promise((resolve, reject) => {
 
       let xhr:XMLHttpRequest = new XMLHttpRequest();
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            resolve(<string>JSON.parse(xhr.response));
+            resolve(xhr.response.toString());
           } else {
             reject(xhr.response);
           }

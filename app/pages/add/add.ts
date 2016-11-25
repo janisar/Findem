@@ -1,7 +1,7 @@
 import {
   Component, AfterViewInit, ViewChildren, QueryList, ElementRef, Renderer, ViewChild
 } from "@angular/core";
-import {ViewController, ModalController, AlertController} from "ionic-angular";
+import {ViewController, ModalController, AlertController, LoadingController} from "ionic-angular";
 import {Addable} from "../../model/Addable";
 import {Location} from "../../model/Location";
 import {DrawLocationOnMapModal} from "./addOnMap/locationOnMap";
@@ -49,7 +49,8 @@ export class AddModalContentPage implements AfterViewInit {
     private imageService: ImageService,
     private addableService: AddableService,
     private alertCtrl: AlertController,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loadingCtrl: LoadingController
   ) {
     this.addForm = fb.group({
       'genericName': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
@@ -130,6 +131,11 @@ export class AddModalContentPage implements AfterViewInit {
       valid = false;
     }
     if (valid) {
+      let loading = this.loadingCtrl.create({
+        content: 'Saving object'
+      });
+      loading.present();
+
       let _object = this.object;
       let _imageService = this.imageService;
 
@@ -137,7 +143,22 @@ export class AddModalContentPage implements AfterViewInit {
         id => {
           _object.files.forEach(file => {
             console.log(file);
-          _imageService.sendFileToServer(file.getFile(), id);
+          _imageService.sendFileToServer(file.getFile(), id).then(onfulfilled => {
+            loading.dismiss();
+            this.dismiss();
+          }, onrejected => {
+            loading.dismiss();
+            let confirm = this.alertCtrl.create({
+              title: 'Something bad happened',
+              message: 'We were unable to add your object. Deeply sorry..',
+              buttons: [
+                {
+                  text: 'Ok'
+                }
+              ]
+            });
+            confirm.present();
+          });
           });
         },
         err => console.log(err)

@@ -14,7 +14,5 @@ export class ObjectDetails {
 
   constructor(private navParams: NavParams) {
     this.object = navParams.get("object");
-
-
   }
 }

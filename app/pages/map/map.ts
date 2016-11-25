@@ -59,6 +59,10 @@ export class MapPage implements AfterViewInit {
       });
     });
   }
+
+  private dismissPopover() {
+
+  }
 }
 
 export class Map {
