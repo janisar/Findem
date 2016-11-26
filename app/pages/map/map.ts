@@ -7,6 +7,7 @@ import {Addable} from "../../model/Addable";
 import {Circle} from "../../model/shape/Circle";
 import {PopoverController} from "ionic-angular";
 import {ObjectDetails} from "./details/ObjectDetails";
+import {Rect} from "../../model/shape/Rect";
 //import { AppComponent } from './app.component';
 
 declare var google;
@@ -44,24 +45,32 @@ export class MapPage implements AfterViewInit {
         let type: string = mapDrawing.type;
         let id = mapDrawing.id;
 
+        var popoverController = this.popoverCtrl;
+        var findemObject = object;
+
         if (type === "circle") {
           let circle: Circle = <Circle> mapDrawing;
           let mapCircle = Map.drawCircle(this.map, {lat: circle.center.lat, lng: circle.center.lng}, circle.radius, id, false);
-          var popoverController = this.popoverCtrl;
-          var findemObject = object;
+
           google.maps.event.addListener(mapCircle, 'click', function() {
             popoverController.create(ObjectDetails, {"object": findemObject}).present();
           });
 
         } else if (type === "rect") {
-
+          let rect: Rect = <Rect> mapDrawing;
+          let bounds = {
+            north: rect.top,
+            south: rect.bottom,
+            east: rect.right,
+            west: rect.left
+          };
+          let mapRect = Map.drawRect(this.map, bounds, id, false);
+          google.maps.event.addListener(mapRect, 'click', function() {
+            popoverController.create(ObjectDetails, {"object": findemObject}).present();
+          });
         }
       });
     });
-  }
-
-  private dismissPopover() {
-
   }
 }
 
@@ -133,14 +142,14 @@ export class Map {
     })
   }
 
-  static drawRect(map, bounds, id) {
+  static drawRect(map, bounds, id, isEditable) {
     return new google.maps.Rectangle({
       fillColor: 'rgba(200, 54, 54, 0.2)',
       fillOpacity: 0.6,
       strokeWeight: 1,
       clickable: true,
-      editable: true,
-      draggable: true,
+      editable: isEditable,
+      draggable: isEditable,
       zIndex: 1,
       id: id,
       map: map,

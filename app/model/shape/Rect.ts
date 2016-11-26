@@ -6,10 +6,10 @@ import {DrawLocationOnMapModal} from "../../pages/add/addOnMap/locationOnMap";
  */
 export class Rect extends MapDrawing {
 
-  private left: number;
-  private top: number;
-  private right: number;
-  private bottom: number;
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
 
   constructor(id: number,
               left: number,
@@ -30,7 +30,7 @@ export class Rect extends MapDrawing {
       east: this.right,
       west: this.left
     };
-    let rect = Map.drawRect(map, bounds, super.getId());
+    let rect = Map.drawRect(map, bounds, super.getId(), true);
     objects.push(rect);
     DrawLocationOnMapModal.rectDragListener(rect, addable);
   }

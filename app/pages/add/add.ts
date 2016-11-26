@@ -111,6 +111,7 @@ export class AddModalContentPage implements AfterViewInit {
   }
   public updateType(result) {
     this.type = result.type;
+    this.object.objectType = result.type;
   }
 
   addObject() {
@@ -142,7 +143,6 @@ export class AddModalContentPage implements AfterViewInit {
       this.addableService.saveAddable(this.object).subscribe(
         id => {
           _object.files.forEach(file => {
-            console.log(file);
           _imageService.sendFileToServer(file.getFile(), id).then(onfulfilled => {
             loading.dismiss();
             this.dismiss();
@@ -153,7 +153,11 @@ export class AddModalContentPage implements AfterViewInit {
               message: 'We were unable to add your object. Deeply sorry..',
               buttons: [
                 {
-                  text: 'Ok'
+                  text: 'Ok',
+                  handler: () => {
+                    loading.dismiss();
+                    this.dismiss();
+                  }
                 }
               ]
             });
@@ -161,8 +165,8 @@ export class AddModalContentPage implements AfterViewInit {
           });
           });
         },
-        err => console.log(err)
-      );
+        err => loading.dismiss()
+      )
     }
   }
 

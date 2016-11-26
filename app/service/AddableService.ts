@@ -7,12 +7,14 @@ import {Observable} from "rxjs";
 
 @Injectable()
 export class AddableService {
-  private result: String;
 
   constructor(@Inject(Http) private http: Http){}
 
   saveAddable(addable: Addable): Observable<number> {
-    let data = JSON.stringify({genericName: addable.genericName, mapDrawings: addable.mapDrawings, description: addable.description, files: addable.files});
+
+
+    let data = JSON.stringify(addable);
+
     let headers = new Headers();
     headers.append("Content-Type", 'application/json');
 
@@ -22,9 +24,6 @@ export class AddableService {
       headers: headers,
       body: data
     });
-
-    // let headers = new Headers({ 'Content-Type': 'application/json' });
-    // let options = new RequestOptions({ headers: headers });
 
     return this.http.request(new Request(requestoptions)).map(this.extractObjectId);
   }
@@ -51,7 +50,7 @@ export class AddableService {
   extractObjectId(res: Response): number {
     let id;
 
-    if (res.json()) {
+    if (res.text()) {
       id = parseInt(res.text());
     }
     if (id) {

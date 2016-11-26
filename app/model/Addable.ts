@@ -6,6 +6,7 @@ import {Control} from "@angular/common";
  */
 export class Addable {
 
+  objectType: number = 0;
   genericName: Control;
   firstName: string;
   lastName: string;

@@ -1,6 +1,11 @@
 <ion-card>
   <ion-card-header>
-    {{object.genericName}}
+    <div *ngIf="object.objectType==0">
+      {{object.genericName}}
+    </div>
+    <div *ngIf="object.objectType==1">
+      {{object.firstName}} {{object.lastName}}
+    </div>
   </ion-card-header>
   <div class="images" >
     <img src="http://localhost:9000/{{object.filePaths}}">
@@ -9,3 +14,4 @@
     {{object.description}}
   </ion-card-content>
 </ion-card>
+Listed: {{object.created | date:format}}
