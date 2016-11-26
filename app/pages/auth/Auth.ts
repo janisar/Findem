@@ -65,23 +65,26 @@ export class Auth implements OnInit {
   }
 
   login() {
+    var _me = this.me
     FB.login(function(result) {
       this.token = result;
+      _me();
     }, { scope: 'user_friends' });
   }
 
   me() {
+    var _authenticationChange = this.authenticationChange;
+    var _local = this.local;
     //noinspection TypeScriptValidateJSTypes
-    FB.api('/me?fields=id,name,gender,picture.width(150).height(150)', function(response) {
-      console.log('Successful login for: ' + response.name);
-
+    FB.api('/me?fields=id,email,name,picture.width(150).height(150)', function(response) {
+      console.log(response);
+      _authenticationChange.emit({authenticated: true});
+      _local.set("loginUser", JSON.stringify({userName: response.name, email: response.email, imageUrl: response.picture.data.url}));
     });
     this.authenticated = true;
-    this.authenticationChange.emit({authenticated: true})
   }
 
   facebook() {
-    console.log(this.authenticated);
     FB.init({
       appId      : '933824743416655',
       xfbml      : true,
@@ -94,20 +97,17 @@ export class Auth implements OnInit {
 
   onGoogleSuccessCallback(authenticationChange) {
 
-    var auth = this.authenticated;
-    var local = this.local;
-    var _loginService = this.loginService;
+    var _local = this.local;
+    var _authCallback = authenticationChange;
 
     return function(googleUser) {
-      console.log(googleUser.getBasicProfile().getName());
-      console.log(googleUser.getBasicProfile().getEmail());
+      var user = new User(googleUser.getBasicProfile().getEmail(), googleUser.getBasicProfile().getName());
+      user.setImg(googleUser.getBasicProfile().getImageUrl());
 
-      var user = new User(googleUser.getBasicProfile().getName(), googleUser.getBasicProfile().getEmail());
-
-      _loginService.loginOrCreateUser(user);
-      
-      authenticationChange.emit({"authenticated": true});
-      local.set("authenticated", "true");
+      //_loginService.loginOrCreateUser(user);
+      _local.set("loginUser", JSON.stringify(user));
+      _authCallback.emit({"authenticated": true});
+      _local.set("authenticated", "true");
     };
   }
 
@@ -145,6 +145,7 @@ export class Auth implements OnInit {
             if (result) {
               this.authenticationChange.emit({"authenticated": true});
               this.local.set("authenticated", "true");
+              this.local.set("loginUser", JSON.stringify(result));
             } else {
               this.invalid = true;
               this.errorMessage = result.toString();

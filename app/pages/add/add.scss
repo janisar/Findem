@@ -83,6 +83,10 @@
         display: block;
         height: 35px;
       }
+
+      button.location.locationProvided {
+        background-color: #6fb16f;
+      }
     }
     .addForm-error {
       margin-left: 15px;

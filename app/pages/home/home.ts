@@ -1,16 +1,25 @@
 import {Component} from '@angular/core';
-import {ModalController} from 'ionic-angular';
+import {ModalController, LocalStorage, Storage} from 'ionic-angular';
 import {AddModalContentPage} from "../add/add";
-import {FormPage} from "../mock/mock";
 
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
 
 export class HomePage {
-  greeting = "Hello angular";
 
-  constructor(private modalCtrl: ModalController) {  }
+  local: Storage;
+  imageUrl: string;
+
+  constructor(private modalCtrl: ModalController) {
+    this.local = new Storage(LocalStorage);
+
+    this.local.get("loginUser").then(value => {
+      let jsonValue = JSON.parse(value);
+      console.log(jsonValue);
+      this.imageUrl = jsonValue.imageUrl;
+    });
+  }
 
   openAddModal() {
 

@@ -102,14 +102,12 @@ export class DrawLocationOnMapModal implements AfterViewInit {
   }
 
   private overlayCallback(drawingmanager) {
-    var obj = this.objects;
+    var _objects = this.objects;
     return function(element) {
       element.id = DrawLocationOnMapModal.counter;
       element.object = element.type;
-      console.log(element.type);
-      obj.push(element);
+      _objects.push(element);
       drawingmanager.setDrawingMode(null);
-      google.maps.event.addListener(element, "rightclick", function (point) { point.setMap(null) });
       DrawLocationOnMapModal.counter = DrawLocationOnMapModal.counter + 1;
     }
   }
@@ -131,12 +129,6 @@ export class DrawLocationOnMapModal implements AfterViewInit {
 
   private circleCallback(addable) {
     return function (circle) {
-      google.maps.event.addListener(circle, 'radius_changed', function(event) {
-        addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateRadius(circle.radius));
-      });
-      google.maps.event.addListener(circle, 'center_changed', function(event) {
-        addable.mapDrawings.filter(t => t.id == circle.id).map(t => t.updateCenter(new Point(circle.center.lat(), circle.center.lng())));
-      });
       DrawLocationOnMapModal.circleDragListener(circle, addable);
       var center = circle.center;
       var radius = circle.radius;

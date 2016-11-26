@@ -49,7 +49,7 @@ export class LoginService {
       body = res.json();
     }
     if (body) {
-      return new User(body.email, body.username);
+      return new User(body.email, body.userName);
     } else return null;
   }
 }

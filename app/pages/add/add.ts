@@ -131,6 +131,22 @@ export class AddModalContentPage implements AfterViewInit {
       this.lastName.markAsTouched();
       valid = false;
     }
+    var showErrorConfirmationAlert = function () {
+      let confirm = this.alertCtrl.create({
+        title: 'Something bad happened',
+        message: 'We were unable to add your object. Deeply sorry..',
+        buttons: [
+          {
+            text: 'Ok',
+            handler: () => {
+
+            }
+          }
+        ]
+      });
+      confirm.present();
+    };
+
     if (valid) {
       let loading = this.loadingCtrl.create({
         content: 'Saving object'
@@ -144,28 +160,19 @@ export class AddModalContentPage implements AfterViewInit {
         id => {
           _object.files.forEach(file => {
           _imageService.sendFileToServer(file.getFile(), id).then(onfulfilled => {
-            loading.dismiss();
-            this.dismiss();
           }, onrejected => {
-            loading.dismiss();
-            let confirm = this.alertCtrl.create({
-              title: 'Something bad happened',
-              message: 'We were unable to add your object. Deeply sorry..',
-              buttons: [
-                {
-                  text: 'Ok',
-                  handler: () => {
-                    loading.dismiss();
-                    this.dismiss();
-                  }
-                }
-              ]
-            });
-            confirm.present();
+
+            showErrorConfirmationAlert.call(this);
           });
+          this.dismiss();
+          loading.dismiss();
           });
         },
-        err => loading.dismiss()
+        err => {
+
+          showErrorConfirmationAlert.call(this);
+          loading.dismiss()
+        }
       )
     }
   }

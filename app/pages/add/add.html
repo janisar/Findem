@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Add
+      Add new object
     </ion-title>
     <ion-buttons start>
       <button (click)="dismiss()">
@@ -53,7 +53,7 @@
       <!--<ion-label floating>Location</ion-label>-->
       <!--<ion-input *ngIf="object.mapDrawings.length <= 0" #autocomplete name="location" [ngFormControl]="location" class="autocomplete" [(ngModel)]="object.location" name="location_1" (focus)="geolocate()" ngDefaultControl></ion-input>-->
       <!--<ion-input *ngIf="object.mapDrawings.length > 0" class="autocomplete" value="Location set on map" disabled name="location_1" (focus)="geolocate()"></ion-input>-->
-      <button ion-button block (click)="drawOnMap()" class="location">
+      <button ion-button block (click)="drawOnMap()" class="location" [ngClass]="{locationProvided: object.mapDrawings.length > 0}">
         Draw location
       </button>
     </ion-item>

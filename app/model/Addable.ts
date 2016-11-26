@@ -16,11 +16,5 @@ export class Addable {
   mapDrawings: Array<MapDrawing> = [];
   filePaths: Array<string>;
 
-  constructor() {
-
-  }
-
-  getGenericName() {
-
-  }
+  constructor() {  }
 }
