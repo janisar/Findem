@@ -78,7 +78,7 @@ export class Map {
 
   static getMap(element) {
 
-    var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+    var myLatlng = new google.maps.LatLng(59.26, 24.45);
 
     var mapOptions = {
       center: myLatlng,
